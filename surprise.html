@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Special Surprise 💖</title>
+
+
+
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff9ec3, #ffe6f0);
+    position: relative;
+  }
+
+  #surpriseBtn {
+    padding: 20px 50px;
+    font-size: 2em;
+    border: none;
+    border-radius: 15px;
+    background: #ff3366;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 25px #ff66b3;
+    transition: all 0.3s ease;
+    z-index: 10;
+    font-weight: bold;
+  }
+
+  #surpriseBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px #ff3399, 0 0 60px #ff66b3;
+  }
+
+  #message {
+    position: absolute;
+    font-size: 7vw;
+    font-family: 'Brush Script MT', cursive;
+    font-weight: bold;
+    color: #ff0055;
+    text-align: center;
+    text-shadow: 0 0 10px #fff, 0 0 25px #ff66b3, 0 0 40px #ff3399;
+    z-index: 10;
+    display: none;
+    animation: messageIn 1s ease forwards, pulse 2s infinite;
+  }
+
+  #finalImage {
+    position: absolute;
+    max-width: 70%;
+    max-height: 70%;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    border-radius: 20px;
+    z-index: 10;
+  }
+
+  @keyframes messageIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  .heart, .sparkle {
+    position: absolute;
+    transform: rotate(-45deg);
+    animation: float linear infinite;
+  }
+
+  .heart {
+    width: 20px;
+    height: 20px;
+    background-color: #ff3366;
+  }
+
+  .heart::before, .heart::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #ff3366;
+    border-radius: 50%;
+  }
+
+  .heart::before { top: -10px; left: 0; }
+  .heart::after { top: 0; left: 10px; }
+
+  .sparkle {
+    width: 8px;
+    height: 8px;
+    background: #ffff66;
+    border-radius: 50%;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+    100% { transform: translateY(-800px) rotate(-45deg); opacity: 0; }
+  }
+  
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="tere_pyaar_me (mp3cut.net).mp3" type="audio/mpeg">
+</audio>
+
+
+<button id="surpriseBtn">Click Me 🎁</button>
+<div id="message">For You, Sree 💖</div>
+<img id="finalImage" src="" alt="Final Surprise">
+
+<script>
+const btn = document.getElementById('surpriseBtn');
+const message = document.getElementById('message');
+const finalImage = document.getElementById('finalImage');
+const body = document.body;
+
+// Romantic text sequence after initial "For You, Sree 💖"
+const romanticTexts = [
+    "You light up my world like nobody else 🌟",
+    "Every moment with you is a treasure 💕",
+    "You make my heart skip a beat 💖",
+    "Being with you feels like a dream come true ✨",
+    "Forever yours, my dearest Sree 💞" 
+];
+
+// Images for final frame (replace with your paths)
+const finalFrames = [
+    "DSC_0110.JPG",
+    "DSC_0144.JPG",
+    "DSC_0146.JPG"
+];
+// Create heart
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.top = Math.random() * 100 + 'vh';
+    heart.style.animationDuration = 2 + Math.random() * 3 + 's';
+    heart.style.opacity = Math.random();
+    body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+}
+
+// Create sparkle
+function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.classList.add('sparkle');
+    sparkle.style.left = Math.random() * 100 + 'vw';
+    sparkle.style.top = Math.random() * 100 + 'vh';
+    sparkle.style.animationDuration = 1 + Math.random() * 2 + 's';
+    body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 3000);
+}
+
+// Show romantic texts sequentially
+function showRomanticTexts(index=0){
+    if(index >= romanticTexts.length) {
+        showFinalImages(0); // start showing images
+        return;
+    }
+    message.textContent = romanticTexts[index];
+    message.style.display = 'block';
+    setTimeout(() => {
+        message.style.display = 'none';
+        showRomanticTexts(index+1);
+    }, 3000);
+}
+
+// Show final images sequentially
+function showFinalImages(index = 0) {
+    if(index >= finalFrames.length) {
+        // Keep last image fully visible
+        finalImage.src = finalFrames[finalFrames.length-1];
+        finalImage.style.opacity = 1;
+        return; // stop process
+    }
+
+    finalImage.src = finalFrames[index];
+    finalImage.style.opacity = 0; // start hidden
+
+    // Fade in
+    setTimeout(() => {
+        finalImage.style.opacity = 1;
+    }, 50); // small delay to trigger transition
+
+    // Fade out after 2.5 seconds (visible duration)
+    setTimeout(() => {
+        finalImage.style.opacity = 0;
+    }, 2500);
+
+    // Show next image after total 3 seconds
+    setTimeout(() => {
+        showFinalImages(index + 1);
+    }, 3000);
+}
+
+// Initial click event
+btn.addEventListener('click', () => {
+    btn.style.display = 'none';
+
+    // Initial hearts + sparkles
+    for(let i=0;i<30;i++){ createHeart(); createSparkle(); }
+
+    // Continuous hearts and sparkles (LOOP continues)
+    setInterval(createHeart, 400);
+    setInterval(createSparkle, 450);
+
+    // Show initial message with original animation
+    message.textContent = "For You, Sree 💖";
+    message.style.display = 'block';
+
+    // After 3 seconds, start romantic text sequence
+    setTimeout(() => {
+        showRomanticTexts();
+    }, 3000);
+});
+
+
+
+const bgMusic = document.getElementById('bgMusic');
+
+btn.addEventListener('click', () => {
+    btn.style.display = 'none';
+
+    // Play background music
+    bgMusic.play().catch(() => {
+        console.log("Autoplay blocked, user interaction required.");
+    });
+
+    // Initial hearts + sparkles
+    for(let i=0;i<30;i++){ createHeart(); createSparkle(); }
+
+    // Continuous hearts and sparkles (LOOP continues)
+    setInterval(createHeart, 400);
+    setInterval(createSparkle, 450);
+
+    // Show initial message with original animation
+    message.textContent = "For You, Sree 💖";
+    message.style.display = 'block';
+
+    // After 3 seconds, start romantic text sequence
+    setTimeout(() => {
+        showRomanticTexts();
+    }, 3000);
+});
+
+bgMusic.volume = 0.2; // 0.0 - 1.0
+
+</script>
+
+</body>
+</html>
